@@ -8,14 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- ADIÇÃO 2: CDN da biblioteca AOS (Animate On Scroll) -->
+    <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
 
     <!-- ================= HEADER ================= -->
     <header id="main-header">
-        <div class="logo">Chilliz</div>
+        <div class="logo">🍦 Chilliz</div>
         
         <nav id="nav-menu">
             <div class="nav-links">
@@ -37,7 +37,9 @@
                 <button class="lang-btn" onclick="setLanguage('en')" title="English">🇺🇸</button>
                 <button class="lang-btn" onclick="setLanguage('es')" title="Español">🇪🇸</button>
             </div>
-            <button class="btn-outline" data-translate="btn_order">Order now</button>
+            <button class="btn-outline" data-translate="btn_order" onclick="scrollToDelivery()">
+                <i class="fas fa-shopping-cart"></i> <span data-translate="btn_order">Order now</span>
+            </button>
             <div class="menu-toggle" onclick="toggleMenu()">
                 <i class="fas fa-bars"></i>
             </div>
@@ -46,35 +48,38 @@
 
     <!-- ================= HERO (HOME) ================= -->
     <main id="hero">
-        <div class="content-left">
+        <div class="content-left" data-aos="fade-right">
             <h1 class="title-cursive">ice cream</h1>
             <h2 class="subtitle" id="flavor-title">Strawberry cone</h2>
             
             <p class="description" data-translate="hero_desc1">
                 Embark on a culinary journey of delight as you immerse yourself in our artisan-crafted ice cream collection.
             </p>
-            <p class="description" data-translate="hero_desc2">
-                Indulge in a world of imagination! Choose your favorite and taste the adventure.
-            </p>
 
             <div class="thumbnails">
                 <div class="thumb active" data-image="sorvete1.webp" data-color="#db2e64" data-flavor="Strawberry cone" onclick="changeFlavor(this)">
                     <img src="sorvete1.webp" alt="Strawberry" onerror="this.style.display='none'">
+                    <div class="thumb-glow"></div>
                 </div>
                 <div class="thumb" data-image="sorvete2.webp" data-color="#3b82f6" data-flavor="Blueberry cone" onclick="changeFlavor(this)">
                     <img src="sorvete2.webp" alt="Blueberry" onerror="this.style.display='none'">
+                    <div class="thumb-glow"></div>
                 </div>
                 <div class="thumb" data-image="sorvete3.webp" data-color="#dca58a" data-flavor="Chocolate cone" onclick="changeFlavor(this)">
                     <img src="sorvete3.webp" alt="Chocolate" onerror="this.style.display='none'">
+                    <div class="thumb-glow"></div>
                 </div>
                 <div class="thumb" data-image="sorvete4.webp" data-color="#2ecc71" data-flavor="Evergreen cone" onclick="changeFlavor(this)">
                     <img src="sorvete4.webp" alt="Evergreen" onerror="this.style.display='none'">
+                    <div class="thumb-glow"></div>
                 </div>
             </div>
         </div>
 
-        <div class="content-right">
-            <img src="sorvete1.webp" alt="Ice Cream" id="main-ice-cream" class="main-image">
+        <div class="content-right" data-aos="fade-left">
+            <div class="image-wrapper">
+                <img src="sorvete1.webp" alt="Ice Cream" id="main-ice-cream" class="main-image">
+            </div>
         </div>
     </main>
 
@@ -95,7 +100,9 @@
                 <p class="product-desc" data-translate="prod1_desc">Creamy strawberry with real fruit chunks.</p>
                 <div class="product-footer">
                     <span class="price">$ 6.90</span>
-                    <button class="btn-small" data-translate="btn_add">Add to cart</button>
+                    <button class="btn-small" onclick="addToCart('Strawberry Dream')" data-translate="btn_add">
+                        <i class="fas fa-plus"></i> Add
+                    </button>
                 </div>
             </div>
 
@@ -108,7 +115,9 @@
                 <p class="product-desc" data-translate="prod2_desc">Smooth blueberry flavor with a tangy twist.</p>
                 <div class="product-footer">
                     <span class="price">$ 7.20</span>
-                    <button class="btn-small" data-translate="btn_add">Add to cart</button>
+                    <button class="btn-small" onclick="addToCart('Blueberry Bliss')" data-translate="btn_add">
+                        <i class="fas fa-plus"></i> Add
+                    </button>
                 </div>
             </div>
 
@@ -121,7 +130,9 @@
                 <p class="product-desc" data-translate="prod3_desc">Rich dark chocolate, intensely delicious.</p>
                 <div class="product-footer">
                     <span class="price">$ 7.90</span>
-                    <button class="btn-small" data-translate="btn_add">Add to cart</button>
+                    <button class="btn-small" onclick="addToCart('Belgian Chocolate')" data-translate="btn_add">
+                        <i class="fas fa-plus"></i> Add
+                    </button>
                 </div>
             </div>
 
@@ -134,7 +145,9 @@
                 <p class="product-desc" data-translate="prod4_desc">Refreshing mint leaves and dark chocolate chips.</p>
                 <div class="product-footer">
                     <span class="price">$ 6.50</span>
-                    <button class="btn-small" data-translate="btn_add">Add to cart</button>
+                    <button class="btn-small" onclick="addToCart('Evergreen Mint')" data-translate="btn_add">
+                        <i class="fas fa-plus"></i> Add
+                    </button>
                 </div>
             </div>
         </div>
@@ -147,23 +160,42 @@
                 <h2 class="section-title" data-translate="delivery_title">Fast <span class="cursive">Delivery</span></h2>
                 <p data-translate="delivery_desc">Get your favorite ice cream delivered to your door in less than 30 minutes. Fresh, frozen, and perfectly packed.</p>
                 
-                <form class="delivery-form">
-                    <input type="text" placeholder="Your Name" data-translate="placeholder_name" required>
-                    <input type="email" placeholder="Your Email" data-translate="placeholder_email" required>
-                    <input type="text" placeholder="Delivery Address" data-translate="placeholder_address" required>
-                    <select required>
-                        <option value="" disabled selected data-translate="select_placeholder">Choose your flavor</option>
-                        <option value="strawberry" data-translate="prod1_name">Strawberry Dream</option>
-                        <option value="blueberry" data-translate="prod2_name">Blueberry Bliss</option>
-                        <option value="chocolate" data-translate="prod3_name">Belgian Chocolate</option>
-                        <option value="evergreen" data-translate="prod4_name">Evergreen Mint</option>
-                    </select>
-                    <button type="submit" class="btn-full" data-translate="btn_confirm">Confirm Delivery</button>
+                <form class="delivery-form" id="deliveryForm">
+                    <div class="form-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Your Name" data-translate="placeholder_name" required>
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="Your Email" data-translate="placeholder_email" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" placeholder="Delivery Address" data-translate="placeholder_address" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <i class="fas fa-ice-cream"></i>
+                        <select required>
+                            <option value="" disabled selected data-translate="select_placeholder">Choose your flavor</option>
+                            <option value="strawberry" data-translate="prod1_name">Strawberry Dream</option>
+                            <option value="blueberry" data-translate="prod2_name">Blueberry Bliss</option>
+                            <option value="chocolate" data-translate="prod3_name">Belgian Chocolate</option>
+                            <option value="evergreen" data-translate="prod4_name">Evergreen Mint</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-full" data-translate="btn_confirm">
+                        <i class="fas fa-motorcycle"></i> Confirm Delivery
+                    </button>
                 </form>
             </div>
             <div class="delivery-image" data-aos="fade-left">
-                <i class="fas fa-motorcycle delivery-icon"></i>
-                <div class="delivery-badge">30 min</div>
+                <div class="delivery-animation">
+                    <i class="fas fa-motorcycle delivery-icon"></i>
+                    <div class="delivery-badge">30 min</div>
+                    <div class="delivery-particles">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -171,24 +203,26 @@
     <!-- ================= FOOTER / CONTACT ================= -->
     <footer id="footer">
         <div class="footer-content">
-            <div class="footer-col">
-                <div class="logo">Chilliz</div>
+            <div class="footer-col" data-aos="fade-up">
+                <div class="logo">🍦 Chilliz</div>
                 <p data-translate="footer_desc">Your daily scoop of happiness. Made with love and the finest ingredients.</p>
                 <div class="socials">
                     <a href="#"><i class="fab fa-instagram"></i></a>
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
                 </div>
             </div>
-            <div class="footer-col">
+            <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
                 <h4 data-translate="footer_links">Quick Links</h4>
                 <ul>
                     <li><a href="#hero" data-translate="nav_home">Home</a></li>
                     <li><a href="#shop" data-translate="nav_shop">Shop</a></li>
                     <li><a href="#delivery" data-translate="nav_delivery">Delivery</a></li>
+                    <li><a href="#footer" data-translate="nav_contact">Contact</a></li>
                 </ul>
             </div>
-            <div class="footer-col">
+            <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
                 <h4 data-translate="footer_contact">Contact Us</h4>
                 <ul class="contact-info">
                     <li><i class="fas fa-map-marker-alt"></i> 123 Ice Cream Ave, Sweet City</li>
@@ -196,13 +230,21 @@
                     <li><i class="fas fa-envelope"></i> hello@chilliz.com</li>
                 </ul>
             </div>
+            <div class="footer-col" data-aos="fade-up" data-aos-delay="300">
+                <h4>Working Hours</h4>
+                <ul class="contact-info">
+                    <li><i class="fas fa-clock"></i> Mon-Fri: 10am - 10pm</li>
+                    <li><i class="fas fa-clock"></i> Sat-Sun: 12pm - 11pm</li>
+                </ul>
+            </div>
         </div>
         <div class="footer-bottom">
-            <p data-translate="footer_credit">Desenvolvido por PabloG.Dev</p>
+            <p data-translate="footer_credit">Developed by PabloG.Dev</p>
+            <p>© 2026 Chilliz. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- ADIÇÃO 2: Script de inicialização do AOS -->
+    <!-- ================= SCRIPTS ================= -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
 </body>

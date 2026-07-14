@@ -1,7 +1,11 @@
-// ===== 0. INICIALIZAR BIBLIOTECA AOS (Animação de Scroll) =====
-AOS.init({
-    duration: 800,
-    once: true,
+// ===== 0. INICIALIZAR BIBLIOTECA AOS =====
+document.addEventListener('DOMContentLoaded', function() {
+    AOS.init({
+        duration: 800,
+        once: true,
+        easing: 'ease-in-out',
+        offset: 100
+    });
 });
 
 // ===== 1. TRADUTOR DINÂMICO =====
@@ -24,7 +28,7 @@ const translations = {
         prod3_desc: "Chocolate escuro intenso, deliciosamente rico.",
         prod4_name: "Menta Evergreen",
         prod4_desc: "Folhas de hortelã refrescantes e gotas de chocolate.",
-        btn_add: "Adicionar ao carrinho",
+        btn_add: "Adicionar",
         delivery_title: "Entrega <span class='cursive'>Rápida</span>",
         delivery_desc: "Receba seu sorvete favorito na sua porta em menos de 30 minutos. Fresco, gelado e perfeitamente embalado.",
         placeholder_name: "Seu Nome",
@@ -55,7 +59,7 @@ const translations = {
         prod3_desc: "Rich dark chocolate, intensely delicious.",
         prod4_name: "Evergreen Mint",
         prod4_desc: "Refreshing mint leaves and dark chocolate chips.",
-        btn_add: "Add to cart",
+        btn_add: "Add",
         delivery_title: "Fast <span class='cursive'>Delivery</span>",
         delivery_desc: "Get your favorite ice cream delivered to your door in less than 30 minutes. Fresh, frozen, and perfectly packed.",
         placeholder_name: "Your Name",
@@ -86,7 +90,7 @@ const translations = {
         prod3_desc: "Chocolate oscuro intenso, deliciosamente rico.",
         prod4_name: "Menta Evergreen",
         prod4_desc: "Hojas de menta refrescantes y chispas de chocolate oscuro.",
-        btn_add: "Agregar al carrito",
+        btn_add: "Agregar",
         delivery_title: "Entrega <span class='cursive'>Rápida</span>",
         delivery_desc: "Recibe tu helado favorito en tu puerta en menos de 30 minutos. Fresco, congelado y perfectamente empaquetado.",
         placeholder_name: "Tu Nombre",
@@ -101,10 +105,14 @@ const translations = {
     }
 };
 
+let currentLanguage = 'pt';
+
 function setLanguage(lang) {
+    currentLanguage = lang;
+    
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.remove('active');
-        if(btn.getAttribute('onclick').includes(lang)) {
+        if(btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(lang)) {
             btn.classList.add('active');
         }
     });
@@ -112,7 +120,7 @@ function setLanguage(lang) {
     const elements = document.querySelectorAll('[data-translate]');
     elements.forEach(el => {
         const key = el.getAttribute('data-translate');
-        if(translations[lang][key]) {
+        if(translations[lang] && translations[lang][key]) {
             if(el.tagName === 'OPTION') {
                 el.textContent = translations[lang][key];
             } else if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
@@ -136,57 +144,52 @@ window.addEventListener('scroll', function() {
     }
 });
 
-// ===== 3. FUNÇÃO DE TROCA DE SABOR (CORRIGIDA) =====
+// ===== 3. FUNÇÃO DE TROCA DE SABOR =====
 function changeFlavor(element) {
     const imageName = element.getAttribute('data-image');
     const color = element.getAttribute('data-color');
     const flavor = element.getAttribute('data-flavor');
 
-    // Atualiza cor de fundo e título
     document.body.style.backgroundColor = color;
     document.getElementById('flavor-title').textContent = flavor;
 
-    // Troca a imagem principal com animação
     const mainImage = document.getElementById('main-ice-cream');
     mainImage.style.opacity = '0';
+    mainImage.style.transform = 'scale(0.8)';
     
     setTimeout(() => {
         mainImage.src = imageName;
         mainImage.style.opacity = '1';
-    }, 150);
+        mainImage.style.transform = 'scale(1)';
+    }, 300);
 
-    // Atualiza o estado ativo das miniaturas
     const allThumbs = document.querySelectorAll('.thumb');
     allThumbs.forEach(thumb => thumb.classList.remove('active'));
     element.classList.add('active');
 
-    // Atualiza as cores dos inputs do formulário
     updateInputColors(color);
 }
 
-// Função que altera a borda dos inputs e selects
+// ===== 4. ATUALIZA CORES DOS INPUTS =====
 function updateInputColors(color) {
     const inputs = document.querySelectorAll('.delivery-form input, .delivery-form select');
     inputs.forEach(input => {
-        input.style.setProperty('--focus-color', color);
-        input.onfocus = function() {
+        input.addEventListener('focus', function() {
             this.style.borderColor = color;
-        };
-        input.onblur = function() {
-            this.style.borderColor = 'rgba(255, 255, 255, 0.8)';
-        };
+            this.parentElement.querySelector('i').style.color = color;
+        });
+        input.addEventListener('blur', function() {
+            this.style.borderColor = 'rgba(255, 255, 255, 0.6)';
+            this.parentElement.querySelector('i').style.color = '#666';
+        });
     });
 }
 
-// Inicializa as cores dos inputs com a cor padrão ao carregar a página
-document.addEventListener('DOMContentLoaded', () => {
-    updateInputColors('#db2e64');
-});
-
-// ===== 4. MENU MOBILE =====
+// ===== 5. MENU MOBILE =====
 function toggleMenu() {
     const nav = document.getElementById('nav-menu');
     nav.classList.toggle('active');
+    document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
 }
 
 document.querySelectorAll('#nav-menu a').forEach(link => {
@@ -194,18 +197,134 @@ document.querySelectorAll('#nav-menu a').forEach(link => {
         const nav = document.getElementById('nav-menu');
         if (nav.classList.contains('active')) {
             nav.classList.remove('active');
+            document.body.style.overflow = '';
         }
     });
 });
 
-// ===== 5. FORMULÁRIO DE DELIVERY =====
-document.querySelector('.delivery-form').addEventListener('submit', function(e) {
+// ===== 6. FUNÇÃO PARA ROLAR ATÉ DELIVERY =====
+function scrollToDelivery() {
+    document.getElementById('delivery').scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+    });
+}
+
+// ===== 7. FUNÇÃO PARA ADICIONAR AO CARRINHO =====
+function addToCart(productName) {
+    const message = `🍦 ${productName} adicionado ao carrinho!`;
+    showNotification(message);
+}
+
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas fa-check-circle"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    notification.style.cssText = `
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: rgba(255, 255, 255, 0.95);
+        color: #000;
+        padding: 15px 25px;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        z-index: 9999;
+        animation: slideInUp 0.5s ease;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.3);
+        max-width: 350px;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOutDown 0.5s ease';
+        setTimeout(() => {
+            notification.remove();
+        }, 500);
+    }, 3000);
+}
+
+// ===== 8. FORMULÁRIO DE DELIVERY =====
+document.getElementById('deliveryForm').addEventListener('submit', function(e) {
     e.preventDefault();
+    
+    const name = this.querySelector('input[type="text"]').value;
+    const email = this.querySelector('input[type="email"]').value;
+    const address = this.querySelectorAll('input[type="text"]')[1].value;
+    const flavor = this.querySelector('select').value;
+    
+    if(!name || !email || !address || !flavor) {
+        showNotification('⚠️ Por favor, preencha todos os campos!');
+        return;
+    }
+    
     const currentLang = document.documentElement.lang;
     let msg = '🍦 Pedido realizado com sucesso! Seu sorvete chegará em 30 minutos.';
     if(currentLang === 'en') msg = '🍦 Order placed successfully! Your ice cream will arrive in 30 minutes.';
     if(currentLang === 'es') msg = '🍦 ¡Pedido realizado con éxito! Tu helado llegará en 30 minutos.';
     
-    alert(msg);
+    showNotification('✅ ' + msg);
     this.reset();
+});
+
+// ===== 9. INJECT ESTILOS DE NOTIFICAÇÃO =====
+const styleSheet = document.createElement("style");
+styleSheet.textContent = `
+    @keyframes slideInUp {
+        from {
+            transform: translateY(100px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOutDown {
+        from {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateY(100px);
+            opacity: 0;
+        }
+    }
+    
+    .notification-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 500;
+    }
+    
+    .notification-content i {
+        font-size: 24px;
+        color: #2ecc71;
+    }
+`;
+document.head.appendChild(styleSheet);
+
+// ===== 10. INICIALIZAÇÃO =====
+document.addEventListener('DOMContentLoaded', function() {
+    updateInputColors('#db2e64');
+    
+    document.addEventListener('click', function(e) {
+        const nav = document.getElementById('nav-menu');
+        const toggle = document.querySelector('.menu-toggle');
+        if (nav.classList.contains('active') && 
+            !nav.contains(e.target) && 
+            !toggle.contains(e.target)) {
+            nav.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
 });
