@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chilliz - Ice Cream Paradise</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- ADIÇÃO 2: CDN da biblioteca AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ================= HEADER ================= -->
+    <header id="main-header">
+        <div class="logo">Chilliz</div>
+        
+        <nav id="nav-menu">
+            <div class="nav-links">
+                <a href="#hero" data-translate="nav_home">Home</a>
+                <a href="#shop" data-translate="nav_shop">Shop</a>
+                <a href="#delivery" data-translate="nav_delivery">Delivery</a>
+                <a href="#footer" data-translate="nav_contact">Contact</a>
+            </div>
+            <div class="lang-selector-mobile">
+                <button class="lang-btn active" onclick="setLanguage('pt')" title="Português">🇧🇷</button>
+                <button class="lang-btn" onclick="setLanguage('en')" title="English">🇺🇸</button>
+                <button class="lang-btn" onclick="setLanguage('es')" title="Español">🇪🇸</button>
+            </div>
+        </nav>
+
+        <div class="header-actions">
+            <div class="lang-selector-desktop">
+                <button class="lang-btn active" onclick="setLanguage('pt')" title="Português">🇧🇷</button>
+                <button class="lang-btn" onclick="setLanguage('en')" title="English">🇺🇸</button>
+                <button class="lang-btn" onclick="setLanguage('es')" title="Español">🇪🇸</button>
+            </div>
+            <button class="btn-outline" data-translate="btn_order">Order now</button>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= HERO (HOME) ================= -->
+    <main id="hero">
+        <div class="content-left">
+            <h1 class="title-cursive">ice cream</h1>
+            <h2 class="subtitle" id="flavor-title">Strawberry cone</h2>
+            
+            <p class="description" data-translate="hero_desc1">
+                Embark on a culinary journey of delight as you immerse yourself in our artisan-crafted ice cream collection.
+            </p>
+            <p class="description" data-translate="hero_desc2">
+                Indulge in a world of imagination! Choose your favorite and taste the adventure.
+            </p>
+
+            <div class="thumbnails">
+                <div class="thumb active" data-image="sorvete1.webp" data-color="#db2e64" data-flavor="Strawberry cone" onclick="changeFlavor(this)">
+                    <img src="sorvete1.webp" alt="Strawberry" onerror="this.style.display='none'">
+                </div>
+                <div class="thumb" data-image="sorvete2.webp" data-color="#3b82f6" data-flavor="Blueberry cone" onclick="changeFlavor(this)">
+                    <img src="sorvete2.webp" alt="Blueberry" onerror="this.style.display='none'">
+                </div>
+                <div class="thumb" data-image="sorvete3.webp" data-color="#dca58a" data-flavor="Chocolate cone" onclick="changeFlavor(this)">
+                    <img src="sorvete3.webp" alt="Chocolate" onerror="this.style.display='none'">
+                </div>
+                <div class="thumb" data-image="sorvete4.webp" data-color="#2ecc71" data-flavor="Evergreen cone" onclick="changeFlavor(this)">
+                    <img src="sorvete4.webp" alt="Evergreen" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <div class="content-right">
+            <img src="sorvete1.webp" alt="Ice Cream" id="main-ice-cream" class="main-image">
+        </div>
+    </main>
+
+    <!-- ================= SHOP (VITRINE) ================= -->
+    <section id="shop" class="section-padding">
+        <div class="section-header" data-aos="fade-down">
+            <h2 class="section-title" data-translate="shop_title">Our <span class="cursive">Flavors</span></h2>
+            <p data-translate="shop_subtitle">Discover our exclusive selection of artisan ice creams.</p>
+        </div>
+        
+        <div class="shop-grid">
+            <!-- Produto 1 -->
+            <div class="product-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="product-img-wrapper">
+                    <img src="sorvete1.webp" alt="Strawberry" onerror="this.src='https://via.placeholder.com/200x250?text=Strawberry'">
+                </div>
+                <h3 data-translate="prod1_name">Strawberry Dream</h3>
+                <p class="product-desc" data-translate="prod1_desc">Creamy strawberry with real fruit chunks.</p>
+                <div class="product-footer">
+                    <span class="price">$ 6.90</span>
+                    <button class="btn-small" data-translate="btn_add">Add to cart</button>
+                </div>
+            </div>
+
+            <!-- Produto 2 -->
+            <div class="product-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="product-img-wrapper">
+                    <img src="sorvete2.webp" alt="Blueberry" onerror="this.src='https://via.placeholder.com/200x250?text=Blueberry'">
+                </div>
+                <h3 data-translate="prod2_name">Blueberry Bliss</h3>
+                <p class="product-desc" data-translate="prod2_desc">Smooth blueberry flavor with a tangy twist.</p>
+                <div class="product-footer">
+                    <span class="price">$ 7.20</span>
+                    <button class="btn-small" data-translate="btn_add">Add to cart</button>
+                </div>
+            </div>
+
+            <!-- Produto 3 -->
+            <div class="product-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="product-img-wrapper">
+                    <img src="sorvete3.webp" alt="Chocolate" onerror="this.src='https://via.placeholder.com/200x250?text=Chocolate'">
+                </div>
+                <h3 data-translate="prod3_name">Belgian Chocolate</h3>
+                <p class="product-desc" data-translate="prod3_desc">Rich dark chocolate, intensely delicious.</p>
+                <div class="product-footer">
+                    <span class="price">$ 7.90</span>
+                    <button class="btn-small" data-translate="btn_add">Add to cart</button>
+                </div>
+            </div>
+
+            <!-- Produto 4 -->
+            <div class="product-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="product-img-wrapper">
+                    <img src="sorvete4.webp" alt="Evergreen" onerror="this.src='https://via.placeholder.com/200x250?text=Evergreen'">
+                </div>
+                <h3 data-translate="prod4_name">Evergreen Mint</h3>
+                <p class="product-desc" data-translate="prod4_desc">Refreshing mint leaves and dark chocolate chips.</p>
+                <div class="product-footer">
+                    <span class="price">$ 6.50</span>
+                    <button class="btn-small" data-translate="btn_add">Add to cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= DELIVERY ================= -->
+    <section id="delivery" class="section-padding bg-section">
+        <div class="delivery-container">
+            <div class="delivery-text" data-aos="fade-right">
+                <h2 class="section-title" data-translate="delivery_title">Fast <span class="cursive">Delivery</span></h2>
+                <p data-translate="delivery_desc">Get your favorite ice cream delivered to your door in less than 30 minutes. Fresh, frozen, and perfectly packed.</p>
+                
+                <form class="delivery-form">
+                    <input type="text" placeholder="Your Name" data-translate="placeholder_name" required>
+                    <input type="email" placeholder="Your Email" data-translate="placeholder_email" required>
+                    <input type="text" placeholder="Delivery Address" data-translate="placeholder_address" required>
+                    <select required>
+                        <option value="" disabled selected data-translate="select_placeholder">Choose your flavor</option>
+                        <option value="strawberry" data-translate="prod1_name">Strawberry Dream</option>
+                        <option value="blueberry" data-translate="prod2_name">Blueberry Bliss</option>
+                        <option value="chocolate" data-translate="prod3_name">Belgian Chocolate</option>
+                        <option value="evergreen" data-translate="prod4_name">Evergreen Mint</option>
+                    </select>
+                    <button type="submit" class="btn-full" data-translate="btn_confirm">Confirm Delivery</button>
+                </form>
+            </div>
+            <div class="delivery-image" data-aos="fade-left">
+                <i class="fas fa-motorcycle delivery-icon"></i>
+                <div class="delivery-badge">30 min</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FOOTER / CONTACT ================= -->
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="footer-col">
+                <div class="logo">Chilliz</div>
+                <p data-translate="footer_desc">Your daily scoop of happiness. Made with love and the finest ingredients.</p>
+                <div class="socials">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4 data-translate="footer_links">Quick Links</h4>
+                <ul>
+                    <li><a href="#hero" data-translate="nav_home">Home</a></li>
+                    <li><a href="#shop" data-translate="nav_shop">Shop</a></li>
+                    <li><a href="#delivery" data-translate="nav_delivery">Delivery</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-translate="footer_contact">Contact Us</h4>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Ice Cream Ave, Sweet City</li>
+                    <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                    <li><i class="fas fa-envelope"></i> hello@chilliz.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p data-translate="footer_credit">Desenvolvido por PabloG.Dev</p>
+        </div>
+    </footer>
+
+    <!-- ADIÇÃO 2: Script de inicialização do AOS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
